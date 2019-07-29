@@ -1,4 +1,4 @@
-// Compiled on 2018-07-31 21:16:27
+// Compiled on 2019-03-24 15:55:02
 @font-face {
   font-family: 'icomoon';
   src: url("../fonts/icomoon/icomoon.eot?srf3rx");
@@ -249,13 +249,11 @@ h1, h2, h3, h4, h5, h6 {
 .qbootstrap-bg {
   background: rgba(0, 0, 0, 0.03); }
 
-.qbootstrap-cover,
 .qbootstrap-hero {
   position: relative;
   height: 800px;
   width: 100%; }
   @media screen and (max-width: 768px) {
-    .qbootstrap-cover,
     .qbootstrap-hero {
       height: 700px; } }
 
@@ -277,7 +275,7 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (max-width: 768px) {
     .qbootstrap-cover,
     .video-hero {
-      heifght: inherit;
+      height: inherit;
       padding: 3em 0; } }
   .qbootstrap-cover .display-t,
   .video-hero .display-t {
@@ -294,6 +292,10 @@ h1, h2, h3, h4, h5, h6 {
   .video-hero .display-tc {
     display: table-cell;
     vertical-align: middle; }
+    @media screen and (max-width: 768px) {
+      .qbootstrap-cover .display-tc,
+      .video-hero .display-tc {
+        vertical-align: bottom; } }
     .qbootstrap-cover .display-tc .holder,
     .video-hero .display-tc .holder {
       color: #fff;
@@ -505,7 +507,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
   display: block;
   margin: auto;
-  width: 20%; }
+  width: 220px; }
 
 #qbootstrap-about h3 {
   font-size: 34px;
@@ -540,27 +542,20 @@ h1, h2, h3, h4, h5, h6 {
 
 #qbootstrap-resume {
   background-size: cover;
+  background-color: #68768E;
   position: relative;
   background-repeat: no-repeat;
   z-index: 0;
   width: 100%;
   color: #fff; }
+  @media screen and (min-width: 768px) {
+    #qbootstrap-resume {
+      background-image: url(../../include/images/linda_blue_cross_med.jpg);
+      background-position: center; } }
   #qbootstrap-resume .section-heading {
     margin-bottom: 0 !important; }
     #qbootstrap-resume .section-heading h2 {
       color: #fff; }
-      @media screen and (max-width: 768px) {
-        #qbootstrap-resume .section-heading h2 {
-          font-size: 30px; } }
-    #qbootstrap-resume .section-heading .datewed {
-      font-size: 24px;
-      color: rgba(255, 255, 255, 0.7); }
-    #qbootstrap-resume .section-heading.svg-sm .svg {
-      height: 180px;
-      margin-bottom: -50px;
-      padding: 0; }
-    #qbootstrap-resume .section-heading.colored .svg {
-      fill: #fff; }
   #qbootstrap-resume .overlay {
     position: absolute !important;
     width: 100%;
@@ -570,20 +565,6 @@ h1, h2, h3, h4, h5, h6 {
     right: 0;
     z-index: -1;
     background: rgba(0, 0, 0, 0.4); }
-  #qbootstrap-resume .countdown {
-    margin-bottom: 0;
-    font-size: 80px;
-    color: #fff; }
-    #qbootstrap-resume .countdown span {
-      margin: 0 30px;
-      display: inline-block;
-      font-family: "Cormorant Garamond"; }
-    #qbootstrap-resume .countdown small {
-      display: block;
-      font-size: 14px;
-      font-family: "Source Sans Pro", Arial, sans-serif;
-      letter-spacing: 10px;
-      text-transform: uppercase; }
   #qbootstrap-resume .display-over {
     z-index: 2; }
 

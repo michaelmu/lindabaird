@@ -22,6 +22,7 @@ $brand-body-color: #818892;
 $brand-selection-color: #f9f6f0;
 $brand-overlay-color: #3b3d40;
 $brand-bg-color: $brand-white;
+$resume-bg-color: #68768E;
 
 $input-border-focus:  $brand-primary !default;
 $form-group-margin-bottom:       30px !default;
@@ -407,13 +408,12 @@ h1, h2, h3, h4, h5, h6 {
 .qbootstrap-bg{
 	background: rgba($brand-black,.03);
 }
-.qbootstrap-cover,
 .qbootstrap-hero {
 	position: relative;
 	height: 800px;
 	width: 100%;
 	@media screen and (max-width :$screen-sm) {
-		height: 700px;
+    height: 700px;
 	}
 }
 .qbootstrap-overlay{
@@ -433,7 +433,7 @@ h1, h2, h3, h4, h5, h6 {
 	position: relative;
 	background-repeat: no-repeat;
 	@media screen and (max-width: $screen-sm) {
-		heifght: inherit;
+		height: inherit;
 		padding: 3em 0;
 	}
 	.display-t{
@@ -449,6 +449,9 @@ h1, h2, h3, h4, h5, h6 {
 	.display-tc{
 		display: table-cell;
 		vertical-align: middle;
+    @media screen and (max-width: $screen-sm) {
+      vertical-align: bottom;
+    }
 		.holder{
 			color: $brand-white;
 			font-family: $font-primary;
@@ -474,7 +477,7 @@ h1, h2, h3, h4, h5, h6 {
 			}
 			@media screen and (max-width: $screen-sm) {
 				letter-spacing: 2px;
-				span{
+        span{
 					position: relative;
 					&:before, &:after{
 						width: 50px;
@@ -704,7 +707,7 @@ h1, h2, h3, h4, h5, h6 {
 		margin-bottom: 20px;
     display: block;
     margin: auto;
-    width: 20%;
+    width: 220px;
 		//@include border-radius(50%);
 	}
 	h3{
@@ -727,7 +730,7 @@ h1, h2, h3, h4, h5, h6 {
 		font-size: 60px;
 		margin-top: 100%;
 		color: rgba($brand-primary,1);
-		@media screen and (max-width :$screen-sm) {
+		@media screen and (max-width: $screen-sm) {
 			font-size: 40px;
 		}
 		.colored {
@@ -745,34 +748,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 #qbootstrap-resume{
 	background-size: cover;
+  background-color: $resume-bg-color;
 	position: relative;
 	background-repeat: no-repeat;
 	z-index: 0;
 	width: 100%;
   color: $brand-white;
+  @media screen and (min-width: $screen-sm){
+      background-image: url(../../include/images/linda_blue_cross_med.jpg);
+      background-position: center;
+  }
+
 	.section-heading{
 		margin-bottom: 0 !important;
 		h2 {
 			color: $brand-white;
-			@media screen and (max-width: $screen-sm) {
-				font-size: 30px;
-			}
-		}
-		.datewed{
-			font-size: 24px;
-			color: rgba($brand-white,.7);
-		}
-		&.svg-sm {
-			.svg {
-				height: 180px;
-				margin-bottom: -50px;
-				padding: 0;
-			}
-		}
-		&.colored {
-			.svg {
-				fill: $brand-white;
-			}
 		}
 	}
 	.overlay{
@@ -784,23 +774,6 @@ h1, h2, h3, h4, h5, h6 {
 		right: 0;
 		z-index: -1;
 		background: rgba(0, 0, 0, .4);
-	}
-	.countdown{
-		margin-bottom: 0;
-		font-size: 80px;
-		color: $brand-white;
-		span{
-			margin: 0 30px;
-			display: inline-block;
-			font-family: $font-secondary;
-		}
-		small{
-			display: block;
-			font-size: 14px;
-			font-family: $font-primary;
-			letter-spacing: 10px;
-			text-transform: uppercase;
-		}
 	}
 	.display-over{
 		z-index: 2;
