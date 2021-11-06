@@ -7,13 +7,38 @@
 		return (navigator.platform.indexOf("iPad") != -1);
 	};
 
+	// Lazy load images in gallery
+	// See: https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video
+	var lazyLoadImages = function() {
+		var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+	  if ("IntersectionObserver" in window) {
+	    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+	      entries.forEach(function(entry) {
+	        if (entry.isIntersecting) {
+	          let lazyImage = entry.target;
+	          lazyImage.src = lazyImage.dataset.src;
+	          //lazyImage.srcset = lazyImage.dataset.srcset;
+	          lazyImage.classList.remove("lazy");
+	          lazyImageObserver.unobserve(lazyImage);
+	        }
+	      });
+	    });
+
+	    lazyImages.forEach(function(lazyImage) {
+	      lazyImageObserver.observe(lazyImage);
+	    });
+	  } else {
+	    // Possibly fall back to a more compatible method here
+	  }
+	};
+
 	var isiPhone = function(){
 	    return (
 			(navigator.platform.indexOf("iPhone") != -1) ||
 			(navigator.platform.indexOf("iPod") != -1)
 	    );
 	};
-
 
 
 	// Carousel Feature Slide
@@ -245,9 +270,41 @@
 		$('.player').mb_YTPlayer();
 	};
 
+	Date.prototype.getWeekNumber = function(){
+	  var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+	  var dayNum = d.getUTCDay() || 7;
+	  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+	  var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+	  return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+	};
+
+  var randomizeCover = function() {
+	// Pick a random cover photo depending on the week
+		var weekNum = new Date().getWeekNumber();
+		let covers = [
+		  {
+		    img: "linda_header_gate.jpg",
+		    classOffset: 'col-md-offset-4'
+		  },
+			{
+		    img: "linda_header_field.jpg",
+		    classOffset: 'col-md-offset-4'
+		  }
+			// ,
+			// {
+		  //   img: "linda_header_inside.jpg",
+		  //   classOffset: 'col-md-offset-4'
+		  // }
+		];
+		var cover = covers[weekNum % covers.length];
+		//var cover = covers[Math.floor(Math.random()*covers.length)];
+		$('.qbootstrap-cover').css('background-image', 'url(include/images/header/' + cover.img + ')');
+		$(".qbootstrap-cover-text").toggleClass('col-md-offset-3 ' + cover.classOffset);
+	};
 
 	// Document on load.
 	$(function(){
+		lazyLoadImages();
 		burgerMenu();
 		sliderMain();
 		clickMenu();
@@ -257,6 +314,7 @@
 		contentWayPoint();
 		inlineSVG();
 		bgVideo();
+		randomizeCover();
 	});
 
 

@@ -1,4 +1,4 @@
-// Compiled on 2019-03-24 15:55:02
+// Compiled on 2021-10-06 20:44:28
 @font-face {
   font-family: 'icomoon';
   src: url("../fonts/icomoon/icomoon.eot?srf3rx");
@@ -226,7 +226,6 @@ h1, h2, h3, h4, h5, h6 {
       .section-heading h3 {
         font-size: 24px !important;
         line-height: 34px; } }
-
 .btn {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
@@ -245,7 +244,6 @@ h1, h2, h3, h4, h5, h6 {
     #qbootstrap-recordings,
     #qbootstrap-engagements {
       padding: 2em 0; } }
-
 .qbootstrap-bg {
   background: rgba(0, 0, 0, 0.03); }
 
@@ -256,7 +254,6 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (max-width: 768px) {
     .qbootstrap-hero {
       height: 700px; } }
-
 .qbootstrap-overlay {
   position: absolute !important;
   width: 100%;
@@ -516,7 +513,6 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (max-width: 768px) {
     #qbootstrap-about h3 {
       font-size: 35px; } }
-
 #qbootstrap-about span {
   color: #E04E6F;
   letter-spacing: 10px;
@@ -551,7 +547,7 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (min-width: 768px) {
     #qbootstrap-resume {
       background-image: url(../../include/images/linda_blue_cross_med.jpg);
-      background-position: center; } }
+      background-position: 70%; } }
   #qbootstrap-resume .section-heading {
     margin-bottom: 0 !important; }
     #qbootstrap-resume .section-heading h2 {
@@ -572,10 +568,15 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff; }
 
 .resume-opera {
-  font-style: oblique; }
+  font-style: oblique;
+  text-align: left; }
 
 .resume-role {
-  font-weight: bolder; }
+  font-weight: bolder;
+  text-align: left; }
+
+.resume-company {
+  text-align: left; }
 
 .recordings {
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -901,7 +902,6 @@ h1, h2, h3, h4, h5, h6 {
     .groom-men img {
       width: 300px;
       margin: 0 auto; } }
-
 .groom-men h3 {
   font-family: "Cormorant Garamond";
   font-size: 28px; }
@@ -964,7 +964,6 @@ h1, h2, h3, h4, h5, h6 {
         .wedding-events .desc .icon {
           position: relative;
           margin: 0; } }
-
 .press-entry {
   background: #fff; }
   @media screen and (max-width: 768px) {
@@ -1023,7 +1022,6 @@ h1, h2, h3, h4, h5, h6 {
         .press-entry .desc .icon {
           position: relative;
           margin: 0; } }
-
 #qbootstrap-contact {
   position: relative; }
   #qbootstrap-contact .section-heading {
@@ -1186,7 +1184,6 @@ h1, h2, h3, h4, h5, h6 {
         top: 0;
         position: relative;
         width: 100%; } }
-
 .qbootstrap-nav-toggle {
   width: 25px;
   height: 25px;
@@ -1268,7 +1265,6 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (max-width: 768px) {
     .qbootstrap-nav-toggle {
       display: block; } }
-
 .person {
   text-align: center;
   margin-bottom: 40px;
@@ -1379,19 +1375,16 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (max-width: 768px) {
     .row-bottom-padded-lg {
       padding-bottom: 2em; } }
-
 .row-bottom-padded-md {
   padding-bottom: 4em; }
   @media screen and (max-width: 768px) {
     .row-bottom-padded-md {
       padding-bottom: 2em; } }
-
 .row-bottom-padded-sm {
   padding-bottom: 2em; }
   @media screen and (max-width: 768px) {
     .row-bottom-padded-sm {
       padding-bottom: 2em; } }
-
 .form-control {
   box-shadow: none;
   background: transparent;

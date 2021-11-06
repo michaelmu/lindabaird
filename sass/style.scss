@@ -756,7 +756,7 @@ h1, h2, h3, h4, h5, h6 {
   color: $brand-white;
   @media screen and (min-width: $screen-sm){
       background-image: url(../../include/images/linda_blue_cross_med.jpg);
-      background-position: center;
+      background-position: 70%;
   }
 
 	.section-heading{
@@ -785,11 +785,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .resume-opera{
   font-style: oblique;
+  text-align: left;
 }
 .resume-role{
   font-weight: bolder;
+  text-align: left;
 }
 .resume-company{
+  text-align: left;
 }
 
 // Formatting for the recordings section
