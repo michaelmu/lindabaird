@@ -130,9 +130,9 @@ class SiteBuilder():
         print("{} files uploaded".format(nfiles))
 
     def update_site(self, deploy=False):
-        print("Compiling CSS...")
         self.optimize_gallery()
         if self.compile_css:
+            print("Compiling CSS...")
             self.css_compile()
         self.render_index()
         if deploy:

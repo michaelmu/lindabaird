@@ -1,6 +1,6 @@
 import json
 
-from lambda_render import lambda_handler
+from lambda_function import lambda_handler
 
 class Context:
     def __init__(self, arn: str):

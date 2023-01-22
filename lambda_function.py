@@ -46,7 +46,7 @@ def clone_repo():
     tmp_path = tempfile.mkdtemp()
     git_url = "https://github.com/michaelmu/lindabaird.git"
     git.Git(tmp_path).clone(git_url)
-    return tmp_path
+    return os.path.join(tmp_path, "lindabaird")
 
 def lambda_handler(event, context):
     deploy = False if 'testmode' in event.keys() else True
