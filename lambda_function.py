@@ -44,12 +44,8 @@ def lambda_handler(event, context):
         sheets_creds=get_sheets_creds(),
         ).update_site(deploy=deploy)
     
-    body = """
-    <h1>Site refreshed<h1>
-    <p>Check it out at http://lindabairdmezzo.com</p>
-    """
+    return """
+    !!Site refreshed!!
     
-    return {
-        "status": "200",
-        "body": body,
-    }
+    Check it out at http://lindabairdmezzo.com
+    """
