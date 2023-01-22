@@ -42,15 +42,8 @@ class SiteBuilder():
         self.template_file = os.path.join(base_path, template_file)
         self.input_path = os.path.join(base_path, 'sass')
         self.output_path = os.path.join(base_path, 'include/css')
-        if config_file:
-            config = ConfigParser()
-            config.read(config_file)
-            print(config.sections())
-            self.s3_access_key = config['s3']['access_key']
-            self.s3_secret_key = config['s3']['private_key']
-        elif aws_creds:
-            self.s3_access_key = aws_creds["access_key"]
-            self.s3_secret_key = aws_creds["secret_key"]
+        self.s3_access_key = aws_creds["access_key"]
+        self.s3_secret_key = aws_creds["secret_key"]
         self.sheets_creds = sheets_creds
         
     def get_last_uploaded(self, ts='ts.txt'):
@@ -72,7 +65,9 @@ class SiteBuilder():
             f.write(tsnow)
 
     def is_fresh_file(self, f):
-        return datetime.datetime.utcfromtimestamp(os.path.getmtime(f)) > self.get_last_uploaded()
+        # Disabling this for now since we don't have state in Lambda
+        #return datetime.datetime.utcfromtimestamp(os.path.getmtime(f)) > self.get_last_uploaded()
+        return True
 
     def render_index(self):
         with open(os.path.join(self.base_path, 'index.html'), 'w') as f:
@@ -122,6 +117,7 @@ class SiteBuilder():
                         mtype = 'font/{}'.format(ext[1:])
                     elif mtype is None:
                         print("!!!! Not handling type of this file: {} !!!".format(globfile))
+                        continue
                     print("{} -> {} ({})".format(globfile, dest_key, mtype))
                     with open(globfile, 'rb') as data:
                         s3.Bucket(self._bucket_name).put_object(Key=dest_key, Body=data, ContentType=mtype)
@@ -155,13 +151,28 @@ if __name__ == '__main__':
             'https://www.googleapis.com/auth/drive']
     sheets_creds_json = base64.b64decode(os.environ["sheets_creds_b64"].encode("utf-8")).decode("utf-8")
     sheets_creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(sheets_creds_json, strict=False))
-    
+    if "access_key" in os.environ.keys():
+        # Get locally exported creds in test mode
+        aws_creds = { 
+            "access_key": os.environ["access_key"],
+            "secret_key": os.environ["private_key"],
+        }
+    else:
+        raise("You need to make sure access_key and private_key are set in the environment variables")
     # Note that CSS compiling doesn't work on AWS Lambda!
     # This is ok since we really only need to do this when we make changes
     # to the CSS. Then we compile the CSS, check it into Git, and it 
     # will be available to Lambda.
     path = os.path.dirname(__file__)
     if args.deploy:
-        SiteBuilder(path, compile_css=True, sheets_creds=sheets_creds).update_site(deploy=True)
+        SiteBuilder(path, 
+            compile_css=True, 
+            aws_creds=aws_creds, 
+            sheets_creds=sheets_creds
+            ).update_site(deploy=True)
     else:
-        SiteBuilder(path, compile_css=True, sheets_creds=sheets_creds).update_site()
+        SiteBuilder(path, 
+            compile_css=True, 
+            aws_creds=aws_creds, 
+            sheets_creds=sheets_creds
+            ).update_site()

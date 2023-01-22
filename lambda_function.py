@@ -1,5 +1,4 @@
-import boto3, json
-from botocore.exceptions import ClientError
+import json
 import os, sys
 import base64
 import tempfile
@@ -8,28 +7,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # This executes in AWS Lambda (copy it there)
 
-def get_secret(secret_name):
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name="us-east-1"
-    )
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
-    except ClientError as e:
-        raise e
-    return get_secret_value_response['SecretString']
-
 def get_sheets_creds():
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
-    if "sheets_creds" in os.environ.keys():
+    if "sheets_creds_b64" in os.environ.keys():
         sheets_creds = base64.b64decode(os.environ["sheets_creds_b64"].encode("utf-8")).decode("utf-8")
     else:
-        sheets_creds = get_secret("google_sheets_creds.json")
-    return ServiceAccountCredentials.from_json_keyfile_dict(json.loads(sheets_creds))
+        raise Exception("Missing sheets_creds in environment variables")
+    return ServiceAccountCredentials.from_json_keyfile_dict(json.loads(sheets_creds, strict=False))
     
 def get_aws_creds():
     if "access_key" in os.environ.keys():
@@ -39,11 +24,7 @@ def get_aws_creds():
             "secret_key": os.environ["private_key"],
         }
     else:
-        secrets = get_secret("myq_credentials")
-        return {
-            'access_key': secrets['access_key'],
-            'secret_key': secrets['secret_key'],
-        }
+        raise Exception("Missing access_key in environment variables")
 
 def clone_repo():
     tmp_path = tempfile.mkdtemp()
@@ -63,3 +44,12 @@ def lambda_handler(event, context):
         sheets_creds=get_sheets_creds(),
         ).update_site(deploy=deploy)
     
+    body = """
+    <h1>Site refreshed<h1>
+    <p>Check it out at http://lindabairdmezzo.com</p>
+    """
+    
+    return {
+        "status": "200",
+        "body": body,
+    }
