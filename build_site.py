@@ -5,9 +5,7 @@ import datetime
 import boto3
 import glob
 import mimetypes
-import sass
 import argparse
-import gzip
 from PIL import Image
 from configparser import ConfigParser
 from render_site import Render
@@ -34,11 +32,13 @@ class SiteBuilder():
 
     def __init__(self,
                  base_path,
+                 compile_css=False,
                  template_file='index_template.html',
                  config_file=None,
                  aws_creds=None,
                  sheets_creds=None):
         self.base_path = base_path
+        self.compile_css = compile_css
         self.template_file = os.path.join(base_path, template_file)
         self.input_path = os.path.join(base_path, 'sass')
         self.output_path = os.path.join(base_path, 'include/css')
@@ -79,6 +79,7 @@ class SiteBuilder():
             f.write(Render(os.path.join(self.base_path, 'index_template.html'), sheets_creds=self.sheets_creds).render_index())
 
     def css_compile(self):
+        import sass
         for f in self._css_files:
             basename, _ = os.path.splitext(f)
             outfname = os.path.join(self.output_path, basename + '.css')
@@ -131,7 +132,8 @@ class SiteBuilder():
     def update_site(self, deploy=False):
         print("Compiling CSS...")
         self.optimize_gallery()
-        self.css_compile()
+        if self.compile_css:
+            self.css_compile()
         self.render_index()
         if deploy:
             print("Syncing files to S3...")
@@ -149,7 +151,11 @@ if __name__ == '__main__':
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
     sheets_creds = ServiceAccountCredentials.from_json(sheets_creds_file)
+    # Note that CSS compiling doesn't work on AWS Lambda!
+    # This is ok since we really only need to do this when we make changes
+    # to the CSS. Then we compile the CSS, check it into Git, and it 
+    # will be available to Lambda.
     if args.deploy:
-        SiteBuilder(path, config_file=config_file, sheets_creds=sheets_creds).update_site(deploy=True)
+        SiteBuilder(path, compile_css=True, config_file=config_file, sheets_creds=sheets_creds).update_site(deploy=True)
     else:
-        SiteBuilder(path, config_file=config_file, sheets_creds=sheets_creds).update_site()
+        SiteBuilder(path, compile_css=True, config_file=config_file, sheets_creds=sheets_creds).update_site()

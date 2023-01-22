@@ -2,6 +2,7 @@ import boto3, json
 from botocore.exceptions import ClientError
 import os, sys
 import tempfile
+import git
 from oauth2client.service_account import ServiceAccountCredentials
 
 def get_secret(secret_name):
@@ -42,11 +43,10 @@ def get_aws_creds():
         }
 
 def clone_repo():
-    clone_cmd = "git clone https://github.com/michaelmu/lindabaird.git" 
     tmp_path = tempfile.mkdtemp()
-    os.chdir(tmp_path)
-    os.system(clone_cmd)
-    return os.path.join(tmp_path, "lindabaird")
+    git_url = "https://github.com/michaelmu/lindabaird.git"
+    git.Git(tmp_path).clone(git_url)
+    return tmp_path
 
 def lambda_handler(event, context):
     deploy = False if 'testmode' in event.keys() else True
