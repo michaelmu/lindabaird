@@ -142,20 +142,26 @@ class SiteBuilder():
             print("Not deploying to S3...")
 
 if __name__ == '__main__':
-    path = '/home/mike/static_website/lindabaird'
-    config_file = '/home/mike/static_website/config.ini'
-    sheets_creds_file = '/home/mike/static_website/python-sheets-247605-1f73a99684a9.json'
+    import tempfile
+    import json
+    import base64
+    #path = '/home/mike/static_website/lindabaird'
+    #config_file = '/home/mike/static_website/config.ini'
+    #sheets_creds_file = '/home/mike/static_website/python-sheets-247605-1f73a99684a9.json'
     parser = argparse.ArgumentParser()
     parser.add_argument("--deploy", help="deploy the site to S3", action='store_true')
     args = parser.parse_args()
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
-    sheets_creds = ServiceAccountCredentials.from_json(sheets_creds_file)
+    sheets_creds_json = base64.b64decode(os.environ["sheets_creds_b64"].encode("utf-8")).decode("utf-8")
+    sheets_creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(sheets_creds_json, strict=False))
+    
     # Note that CSS compiling doesn't work on AWS Lambda!
     # This is ok since we really only need to do this when we make changes
     # to the CSS. Then we compile the CSS, check it into Git, and it 
     # will be available to Lambda.
+    path = os.path.dirname(__file__)
     if args.deploy:
-        SiteBuilder(path, compile_css=True, config_file=config_file, sheets_creds=sheets_creds).update_site(deploy=True)
+        SiteBuilder(path, compile_css=True, sheets_creds=sheets_creds).update_site(deploy=True)
     else:
-        SiteBuilder(path, compile_css=True, config_file=config_file, sheets_creds=sheets_creds).update_site()
+        SiteBuilder(path, compile_css=True, sheets_creds=sheets_creds).update_site()

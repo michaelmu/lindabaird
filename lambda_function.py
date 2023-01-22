@@ -1,9 +1,12 @@
 import boto3, json
 from botocore.exceptions import ClientError
 import os, sys
+import base64
 import tempfile
 import git
 from oauth2client.service_account import ServiceAccountCredentials
+
+# This executes in AWS Lambda (copy it there)
 
 def get_secret(secret_name):
     session = boto3.session.Session()
@@ -23,7 +26,7 @@ def get_sheets_creds():
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
     if "sheets_creds" in os.environ.keys():
-        sheets_creds = os.environ["sheets_creds"]
+        sheets_creds = base64.b64decode(os.environ["sheets_creds_b64"].encode("utf-8")).decode("utf-8")
     else:
         sheets_creds = get_secret("google_sheets_creds.json")
     return ServiceAccountCredentials.from_json_keyfile_dict(json.loads(sheets_creds))
