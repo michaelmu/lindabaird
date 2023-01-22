@@ -11,6 +11,7 @@ import gzip
 from PIL import Image
 from configparser import ConfigParser
 from render_site import Render
+from oauth2client.service_account import ServiceAccountCredentials
 
 class SiteBuilder():
 
@@ -34,17 +35,24 @@ class SiteBuilder():
     def __init__(self,
                  base_path,
                  template_file='index_template.html',
-                 config_file='config.ini'):
+                 config_file=None,
+                 aws_creds=None,
+                 sheets_creds=None):
         self.base_path = base_path
         self.template_file = os.path.join(base_path, template_file)
         self.input_path = os.path.join(base_path, 'sass')
         self.output_path = os.path.join(base_path, 'include/css')
-        config = ConfigParser()
-        config.read(config_file)
-        print(config.sections())
-        self.s3_access_key = config['s3']['access_key']
-        self.s3_secret_key = config['s3']['private_key']
-
+        if config_file:
+            config = ConfigParser()
+            config.read(config_file)
+            print(config.sections())
+            self.s3_access_key = config['s3']['access_key']
+            self.s3_secret_key = config['s3']['private_key']
+        elif aws_creds:
+            self.s3_access_key = aws_creds["access_key"]
+            self.s3_secret_key = aws_creds["secret_key"]
+        self.sheets_creds = sheets_creds
+        
     def get_last_uploaded(self, ts='ts.txt'):
         ts_file = os.path.join(self.base_path, ts)
         # Get our last upload timestamp
@@ -68,7 +76,7 @@ class SiteBuilder():
 
     def render_index(self):
         with open(os.path.join(self.base_path, 'index.html'), 'w') as f:
-            f.write(Render(os.path.join(self.base_path, 'index_template.html')).render_index())
+            f.write(Render(os.path.join(self.base_path, 'index_template.html'), sheets_creds=self.sheets_creds).render_index())
 
     def css_compile(self):
         for f in self._css_files:
@@ -134,10 +142,14 @@ class SiteBuilder():
 if __name__ == '__main__':
     path = '/home/mike/static_website/lindabaird'
     config_file = '/home/mike/static_website/config.ini'
+    sheets_creds_file = '/home/mike/static_website/python-sheets-247605-1f73a99684a9.json'
     parser = argparse.ArgumentParser()
     parser.add_argument("--deploy", help="deploy the site to S3", action='store_true')
     args = parser.parse_args()
-if args.deploy:
-    SiteBuilder(path, config_file=config_file).update_site(deploy=True)
-else:
-    SiteBuilder(path, config_file=config_file).update_site()
+    scope = ['https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive']
+    sheets_creds = ServiceAccountCredentials.from_json(sheets_creds_file)
+    if args.deploy:
+        SiteBuilder(path, config_file=config_file, sheets_creds=sheets_creds).update_site(deploy=True)
+    else:
+        SiteBuilder(path, config_file=config_file, sheets_creds=sheets_creds).update_site()

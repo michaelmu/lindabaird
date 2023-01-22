@@ -5,25 +5,26 @@ from datetime import datetime as dt
 from pytz import timezone, utc
 
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-
-CREDS_FILE = '/home/mike/static_website/python-sheets-247605-1f73a99684a9.json'
 
 class Render():
-    def __init__(self, template_file):
+    def __init__(self, template_file, sheets_creds):
         self.template_file = template_file
+        self.sheets_creds = sheets_creds
         self.sheets = self.sheets_init()
-
+        
     def sheets_init(self):
-        scope = ['https://spreadsheets.google.com/feeds',
-                 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name(CREDS_FILE, scope)
-        client = gspread.authorize(creds)
+        # scope = ['https://spreadsheets.google.com/feeds',
+        #          'https://www.googleapis.com/auth/drive']
+        #creds = ServiceAccountCredentials.from_json_keyfile_name(self.creds_file, scope)
+        client = gspread.authorize(self.sheets_creds)
         # Return the set of sheets for this google sheets
         return client.open("Website Content")
 
     def get_timestamp(self):
         return dt.now(tz=utc).astimezone(timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S PDT')
+
+    def get_year(self):
+        return dt.now().strftime("%Y")
 
     def get_about(self):
         return self.sheets.get_worksheet(0).cell(1, 1).value
@@ -58,6 +59,7 @@ class Render():
                      trim_blocks=True)
         return j2_env.get_template(template_file).render(
             timestamp=self.get_timestamp(),
+            year=self.get_year(),
             about_text=self.get_about(),
             photo_set=self.get_photos(),
             recordings=self.get_recordings(),
