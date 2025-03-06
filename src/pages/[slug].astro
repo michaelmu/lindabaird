@@ -1,0 +1,26 @@
+---
+import { getEntryBySlug, getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro-imagetools';
+
+export async function getStaticPaths() {
+  const projects = await Astro.glob('../content/projects/*.md');
+  return projects.map((project) => ({
+    params: { slug: project.frontmatter.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout>
+  <h1>{project.frontmatter.title}</h1>
+  <p>{project.frontmatter.description}</p>
+  
+  <div class="gallery">
+    {project.frontmatter.images.map((img) => (
+      <img src={img(src=img, width=800)} alt="Project Image" />
+    ))}
+  </div>
+</Layout>
