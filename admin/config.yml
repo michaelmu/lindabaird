@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: michaelmus/lj-collective-site
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - name: "date"
+        label: "Date"
+        widget: "datetime"
+      - name: "images"
+        label: "Project Images"
+        widget: "list"
+        fields:
+          - {label: "Image", name: "image", widget: "image"}
+          - {label: "Caption", name: "caption", widget: "string", required: false}
