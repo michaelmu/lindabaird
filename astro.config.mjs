@@ -1,7 +1,10 @@
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
-import image from 'astro-imagetools';
+import { astroImageTools } from "astro-imagetools";
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  integrations: [image(), mdx()],
+  integrations: [astroImageTools, mdx()], // ✅ Ensure MDX is properly integrated
+  output: 'static',
+  base: '/lj-collective-site/',
 });
