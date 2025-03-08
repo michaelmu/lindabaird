@@ -1,0 +1,65 @@
+---
+// src/components/PhotoSwipeGallery.astro
+// Props: images: Array<{ src: string, caption?: string, width?: number, height?: number }>
+const { images } = Astro.props;
+---
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+
+<div id="my-gallery" class="pswp-gallery">
+  {images.map((img, index) => (
+    <a 
+      href={img.src}
+      data-pswp-width={img.width || 1200}
+      data-pswp-height={img.height || 800}
+      aria-label={img.caption ? img.caption : `Image ${index + 1}`}
+    >
+      <img src={img.src} alt={img.caption || `Image ${index + 1}`} />
+    </a>
+  ))}
+</div>
+
+<style>
+  /* Gallery grid container */
+  .pswp-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  /* Each link becomes a grid item */
+  .pswp-gallery a {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  /* Images take full width, with a subtle hover effect */
+  .pswp-gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .pswp-gallery a:hover img {
+    transform: scale(1.05);
+  }
+</style>
+
+<script client:load type="module">
+  import 'photoswipe/style.css'
+  import PhotoSwipeLightbox from 'photoswipe/lightbox'
+  import pswpModule from 'photoswipe'
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#my-gallery',
+    children: 'a',
+    bgOpacity: 0.8, // Set overlay opacity (0 to 1)
+    pswpModule
+  });
+  
+  document.addEventListener(
+        'astro:page-load',
+        () => { if (lightbox) lightbox.init() },
+        { once: false },
+      )
+</script>

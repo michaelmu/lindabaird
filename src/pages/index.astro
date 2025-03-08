@@ -3,34 +3,54 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
+const base = import.meta.env.BASE_URL;
 ---
-
 <Layout>
-  <!-- Hero Section with a large background image -->
-  <section class="hero">
-    <!-- Replace '/images/hero.jpg' with your actual hero image file -->
-    <img src="/images/hero.jpg" alt="Stunning interior design" />
-    <div class="hero-overlay">
-      <h1>Welcome to My Interior Design Portfolio</h1>
-      <p>Explore exquisite projects crafted with elegance and earth tones.</p>
-    </div>
-  </section>
+  <div class="index-page">
+    <section class="hero">
+      <img src={`${base}images/front1.jpg`} alt="Stunning interior design" />
+      <div class="hero-overlay">
+        <h1>Japanese-inspired interior design</h1>
+        <p>Explore exquisite projects crafted with elegance and earth tones.</p>
+      </div>
+    </section>
 
-  <!-- Projects List Section -->
-  <section class="landing">
-    <h2>Featured Projects</h2>
-    {projects.length === 0 ? (
-      <p>No projects found. Check back later!</p>
-    ) : (
-      <ul>
-        {projects.map((project) => (
-          <li>
-            <a href={`${import.meta.env.BASE_URL}${project.slug}/`}>
-              {project.data.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
-  </section>
+    <!-- Projects List Section -->
+    <section class="landing">
+      <div class="index-page-projects">
+        <h2>Featured Projects</h2>
+        {projects.length === 0 ? (
+          <p>No projects found. Check back later!</p>
+        ) : (
+          <div class="featured-projects">
+            {projects.map((project) => {
+              // Use the first image as a representative image if available.
+              const representativeImage =
+                project.data.images && project.data.images.length > 0
+                  ? project.data.images[0]
+                  : null;
+              return (
+                <a class="featured-project-item" href={`${base}${project.slug}/`}>
+                  {representativeImage && (
+                    <div class="image-overlay-container">
+                      <img
+                        src={representativeImage.image}
+                        alt={representativeImage.caption || project.data.title}
+                      />
+                      <div class="overlay">
+                        <h3>{project.data.title}</h3>
+                        {project.data.description && (
+                          <p>{project.data.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
 </Layout>
