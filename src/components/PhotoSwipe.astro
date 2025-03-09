@@ -7,9 +7,9 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/**/*.{jpg,jpeg,png}');
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/**/*.{jpg,jpeg,png}');
 const imagePaths = Object.keys(images).filter((path) =>
-  path.includes(`/src/assets/projects/${project}/`)
+  path.includes(`../assets/projects/${project}/`)
 );
 ---
 <div id="gallery" class="gallery">
