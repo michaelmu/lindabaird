@@ -1,0 +1,28 @@
+---
+import PhotoSwipe from './PhotoSwipe.astro';
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+interface Props {
+	project: string;
+	projectName: string;
+	projectDescription: string;
+}
+
+const { project } = Astro.props;
+const { projectName } = Astro.props;
+const { projectDescription } = Astro.props;
+---
+<Header />
+
+<Layout title={projectName}>
+  <div class="project-header">
+    <h1>{projectName}</h1>
+    <p class="project-description">{projectDescription}</p>
+  </div>
+  <div class="project-content">
+    <PhotoSwipe project={project} />
+  </div>
+</Layout>
+
+<Footer />
