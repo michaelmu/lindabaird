@@ -6,5 +6,5 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
   integrations: [astroImageTools, mdx()],
   output: 'static',
-  base: '/',
+  base: process.env.NODE_ENV === 'production' ? '/lj-collective-site/' : '/',
 });
