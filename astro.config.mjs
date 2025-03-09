@@ -6,5 +6,5 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
   integrations: [astroImageTools, mdx()],
   output: 'static',
-  base: '/design/',
+  base: '/',
 });
