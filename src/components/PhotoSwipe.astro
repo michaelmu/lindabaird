@@ -1,0 +1,63 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image, getImage } from "astro:assets";
+
+interface Props {
+  project: string;
+}
+
+const { project } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/**/*.{jpg,jpeg,png}');
+const imagePaths = Object.keys(images).filter((path) =>
+  path.includes(`/src/assets/projects/${project}/`)
+);
+---
+<div id="gallery" class="gallery">
+  {
+    imagePaths.map(async (imagePath) => {
+      let image = images[imagePath]();
+      let optimizedImage = await getImage({
+        src: image,
+        width: 1920,
+      });
+
+      return (
+        <a
+          href={optimizedImage.src}
+          data-pswp-width={optimizedImage.attributes.width}
+          data-pswp-height={optimizedImage.attributes.height}
+          target="_blank"
+        >
+          <Image
+            src={image}
+            alt={"altText"}
+            height={350}
+          />
+        </a>
+      );
+    })
+  }
+</div>
+
+<script>
+	import PhotoSwipeLightbox from "photoswipe/lightbox";
+	import "photoswipe/style.css";
+
+	const lightbox = new PhotoSwipeLightbox({
+		gallery: "#gallery",
+		children: "a",
+		pswpModule: () => import("photoswipe"),
+	});
+
+	lightbox.init();
+</script>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    row-gap: 1rem;  
+    column-gap: 1rem;
+    justify-items: center;
+  }
+</style>
