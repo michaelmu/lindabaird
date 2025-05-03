@@ -6,5 +6,8 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
   integrations: [astroImageTools, mdx()],
   output: 'static',
-  base: process.env.NODE_ENV === 'production' ? '/lj-collective-site/' : '/',
+  // When deployed, the site will live under /interior_design/ on lindabaird.com
+  base: process.env.NODE_ENV === 'production'
+    ? '/interior_design/'
+    : '/',
 });

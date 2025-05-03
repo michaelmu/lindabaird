@@ -53,11 +53,23 @@ const imagePaths = Object.keys(images).filter((path) =>
 </script>
 
 <style>
+  /* Responsive image grid within project-content */
   .gallery {
     display: grid;
-    grid-template-columns: repeat(3, auto);
-    row-gap: 1rem;  
-    column-gap: 1rem;
-    justify-items: center;
+    /* Auto-fit as many columns as will fit, min width 300px, flex to fill */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  /* Make each link (grid item) fill its cell */
+  .gallery a {
+    display: block;
+    width: 100%;
+  }
+  /* Ensure images scale to cell width and maintain aspect ratio */
+  .gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 </style>
