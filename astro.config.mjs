@@ -7,8 +7,6 @@ export default defineConfig({
   integrations: [astroImageTools, mdx()],
   output: 'static',
   // When deployed, the site will live under /interior_design/ on lindabaird.com
-  // When deployed, the site will live under /interior_design/ on lindabaird.com
-  base: process.env.NODE_ENV === 'production'
-    ? '/interior_design/'
-    : '/',
+  // All assets are served from the root; use default base '/'
+  base: '/',
 });
