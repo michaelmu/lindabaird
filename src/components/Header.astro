@@ -1,20 +1,11 @@
 ---
 // src/components/Header.astro
-const base = import.meta.env.BASE_URL;
+// Header navigation for interior_design site (absolute paths used)
 ---
 <header class="site-header">
   <div class="header-container">
-    <a href={`${base}`}>
-      <img src={`${base}images/lb_logo2.jpg`} alt="Linda Baird Design Logo" width="80" />
+    <a href="/interior_design/">
+      <img src="/images/lb_logo2.jpg" alt="Linda Baird Design Logo" width="80" />
     </a>
-    <nav>
-      <ul class="nav-links">
-        <li><a href={`${base}`}>Home</a></li>
-        <li><a href={`${base}projects/`}>Projects</a></li>
-        <li><a href={`${base}process/`}>Process</a></li>
-        <li><a href={`${base}designers/`}>Designers</a></li>
-        <li><a href={`${base}contact/`}>Contact</a></li>
-      </ul>
-    </nav>
   </div>
 </header>

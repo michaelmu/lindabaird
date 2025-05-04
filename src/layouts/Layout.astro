@@ -2,7 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 // src/layouts/Layout.astro
-const base = import.meta.env.BASE_URL;
+// Layout wrapper: includes header, main slot, and footer. Uses absolute asset paths.
 ---
 <!doctype html>
 <html lang="en">
@@ -10,18 +10,22 @@ const base = import.meta.env.BASE_URL;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- Global Styles -->
-    <link rel="stylesheet" href={`${base}styles/global.css`} />
+    <link rel="stylesheet" href="/styles/global.css" />
     <!-- (Optional) Include your custom fonts if self-hosted or via a service -->
     <!-- For example: -->
     <!-- <link rel="stylesheet" href="https://yourfontprovider.com/avenirbook.css" /> -->
     <!-- <link rel="stylesheet" href="https://yourfontprovider.com/butlerregular.css" /> -->
     <title>{Astro.props.title || "Linda Baird Design"}</title>
-    <base href={base} />
+    <!-- Removed base href to allow relative links under /interior_design/ to resolve correctly -->
   </head>
   <body>
-    <slot />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
 

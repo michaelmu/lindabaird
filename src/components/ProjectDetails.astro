@@ -1,8 +1,6 @@
 ---
 import PhotoSwipe from './PhotoSwipe.astro';
 import Layout from '../layouts/Layout.astro';
-import Header from './Header.astro';
-import Footer from './Footer.astro';
 interface Props {
 	project: string;
 	projectName: string;
@@ -13,8 +11,6 @@ const { project } = Astro.props;
 const { projectName } = Astro.props;
 const { projectDescription } = Astro.props;
 ---
-<Header />
-
 <Layout title={projectName}>
   <div class="project-header">
     <h1>{projectName}</h1>
@@ -24,5 +20,3 @@ const { projectDescription } = Astro.props;
     <PhotoSwipe project={project} />
   </div>
 </Layout>
-
-<Footer />

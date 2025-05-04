@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from "astro:assets";
+
+// Project images
+import midcenturyModern from '../../assets/projects/pacific-northwest-midcentury-modern/pacific-northwest-midcentury-modern-01.jpg';
+import natureSuite from '../../assets/projects/nature-suite/01-living-room.jpg';
+import harborView from '../../assets/projects/harbor-view/8.12.22-58.jpg';
+import upperRockridge from '../../assets/projects/upper-rockridge/41069891_0.jpg';
+
+---
+<Layout>
+  <div class="index-page">
+    <section class="hero">
+      <img src="/images/front1.jpg" alt="Stunning interior design" />
+      <div class="hero-overlay">
+        <h1>Japanese-inspired interior design</h1>
+        <p>Explore exquisite projects crafted with elegance and earth tones.</p>
+      </div>
+    </section>
+
+    <!-- Projects List Section -->
+    <section class="landing">
+		<div class="featured-projects">
+			<article class="featured-project-card">
+				<a href="projects/upper-rockridge">
+				  <Image src={upperRockridge} width={300} height={200} alt="Upper Rockridge" />
+				  <div class="featured-project-overlay">
+					<h3>Upper Rockridge</h3>
+					<p>Experience timeless design with a modern twist.</p>
+				  </div>
+				</a>
+			  </article>
+			<article class="featured-project-card">
+				<a href="projects/pacific-northwest-midcentury-modern">
+				  <Image src={midcenturyModern} width={300} height={200} alt="Pacific Northwest Midcentury Modern" />
+				  <div class="featured-project-overlay">
+					<h3>Pacific Northwest Midcentury Modern</h3>
+					<p>Experience timeless design with a modern twist.</p>
+				  </div>
+				</a>
+			  </article>
+			<article class="featured-project-card">
+				<a href="projects/nature-suite">
+				<Image src={natureSuite} width={300} height={200} alt="Nature Suite" />
+			  <div class="featured-project-overlay">
+				<h3>Nature Suite</h3>
+				<p>Discover modern elegance inspired by nature.</p>
+			  </div>
+			</a>
+		  </article>
+		  <article class="featured-project-card">
+			<a href="projects/harbor-view">
+				<Image src={harborView} width={300} height={200} alt="Harbor View" />
+			  <div class="featured-project-overlay">
+				<h3>Harbor View</h3>
+				<p>Experience timeless design with a modern twist.</p>
+			  </div>
+			</a>
+		  </article>
+		  
+		</div>
+	  </section>
+  </div>
+</Layout>
