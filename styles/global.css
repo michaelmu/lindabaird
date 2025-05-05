@@ -135,8 +135,11 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  /* Darken gradient for stronger contrast */
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   color: var(--color-white);
+  /* Add text shadow to improve legibility */
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
