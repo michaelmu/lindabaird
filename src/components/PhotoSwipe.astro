@@ -7,7 +7,9 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/**/*.{jpg,jpeg,png}');
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/projects/**/*.{jpg,jpeg,png}'
+);
 const imagePaths = Object.keys(images).filter((path) =>
   path.includes(`../assets/projects/${project}/`)
 );
@@ -15,11 +17,17 @@ const imagePaths = Object.keys(images).filter((path) =>
 <div id="gallery" class="gallery">
   {
     imagePaths.map(async (imagePath) => {
-      let image = images[imagePath]();
-      let optimizedImage = await getImage({
+      const imageModule = await images[imagePath]();
+      const image = imageModule.default;
+      const optimizedImage = await getImage({
         src: image,
         width: 1920,
       });
+      const alt = imagePath
+        .split("/")
+        .pop()
+        ?.replace(/[-_]/g, " ")
+        .replace(/\.[^.]+$/, "");
 
       return (
         <a
@@ -27,11 +35,7 @@ const imagePaths = Object.keys(images).filter((path) =>
           data-pswp-width={optimizedImage.attributes.width}
           data-pswp-height={optimizedImage.attributes.height}
         >
-          <Image
-            src={image}
-            alt="Gallery image"
-            height={350}
-          />
+          <Image src={image} alt={alt} height={350} loading="lazy" />
         </a>
       );
     })
