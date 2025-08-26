@@ -1,11 +1,12 @@
 ---
 // src/components/Header.astro
 // Header navigation for design site (absolute paths used)
+import logo from "../assets/lb_logo2.svg?url";
 ---
 <header class="site-header">
   <div class="header-container">
     <a href="/design/">
-      <img src="/images/lb_logo2.jpg" alt="Linda Baird Design Logo" width="80" />
+      <img src={logo} alt="Linda Baird Design Logo" width="80" loading="lazy" />
     </a>
   </div>
 </header>
